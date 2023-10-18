@@ -4,7 +4,6 @@ import draggable from '@xiaoshuapp/draggable'
 import type { Ref } from 'vue'
 import { ref } from 'vue'
 import DetectDialog from '../../components/DetectDialog.vue'
-import StarDialog from '../../components/StarDialog.vue'
 import settingData from '../../options/setting.json'
 import originData from './data.json'
 
@@ -249,7 +248,7 @@ watch(
         const data = JSON.parse(JSON.stringify(listData.value))
         browser.storage.sync.set({ listData: data }).then(
             () => {
-                window.console.log('OK')
+                window.console.log('Watching listData Done')
             },
             (error: Error) => {
                 window.console.log(error)
@@ -281,11 +280,10 @@ window.setInterval(() => {
     if (url_prec !== window.location.href) {
         url_prec = window.location.href
         getActive()
-        window.onload = () => {
-            searchKeyword.value = getKeyword()
-            keyword.value = getKeyword()
-            loaded.value = true
-        }
+        window.console.log(`URL changed`)
+        searchKeyword.value = getKeyword()
+        keyword.value = getKeyword()
+        loaded.value = true
     }
 }, 1000)
 
@@ -296,7 +294,6 @@ const enable = computed(() => {
 </script>
 
 <template>
-    <StarDialog v-if="enable" />
     <div
         v-if="enable"
         class="explorer-xiaoshu"
@@ -400,7 +397,7 @@ const enable = computed(() => {
                                 <img
                                     class="item-icon"
                                     loading="lazy"
-                                    :src="`https://store.chainwon.com/api/v1/icons/icon?size=32..120..256&url=${element.engine.replace(
+                                    :src="`https://lib.xiaoshuapp.com/icon/x?url=${element.engine.replace(
                                         '%s',
                                         '',
                                     )}`"
